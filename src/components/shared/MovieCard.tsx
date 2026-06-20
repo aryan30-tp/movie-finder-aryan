@@ -29,36 +29,18 @@ export function MovieCard({ movie, onViewDetails }: { movie: Movie; onViewDetail
       transition={{ duration: 0.6, ease: [0.215, 0.610, 0.355, 1.000] }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="bg-[#0d1222]/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-lg border border-gray-800/60 flex flex-col h-[420px] group transition-all duration-300 relative cursor-pointer"
+      className={`bg-[#0d1222]/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-lg flex flex-col h-[420px] group relative cursor-pointer border transition-all duration-200 ${
+        isHovered ? 'border-gray-300 shadow-xl shadow-white/5 scale-[1.01]' : 'border-gray-800/60'
+      }`}
     >
-      {/* 🏎️ REFINED HARDWARE-ACCELERATED SILVER LIGHT LOOP TRACER (NO GIANT BOX OVERLAY) */}
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 z-30 pointer-events-none rounded-2xl overflow-hidden"
-          >
-            {/* Spinning silver line overlay using an explicit mask-image container to ensure zero poster blocking */}
-            <div 
-              className="absolute inset-[-150%] animate-spin-slow bg-[conic-gradient(from_0deg,transparent_40%,#ffffff_50%,transparent_60%)]"
-              style={{ animationDuration: '4s' }}
-            />
-            {/* Inner dark core cut-out keeping only a razor-thin 2px border visible */}
-            <div className="absolute inset-[2px] bg-[#0d1222]/15 backdrop-blur-sm rounded-[14px] border border-gray-800/40" />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <div className="relative w-full h-[290px] bg-gray-900 overflow-hidden relative z-10">
+      <div className="relative w-full h-[290px] bg-gray-900 overflow-hidden">
         {movie.poster_path ? (
           <Image 
             src={movie.poster_path} 
             alt={movie.title}
             fill
             sizes="(max-width: 768px) 100vw, 25vw"
-            className="object-cover group-hover:scale-102 transition-transform duration-500"
+            className="object-cover"
             unoptimized
           />
         ) : (
@@ -79,7 +61,7 @@ export function MovieCard({ movie, onViewDetails }: { movie: Movie; onViewDetail
           </button>
         </div>
         
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-brand-surface to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#0d1222] to-transparent" />
       </div>
 
       <div className="p-4 flex flex-col flex-grow justify-between gap-1 bg-brand-surface/20 relative z-10">
@@ -101,17 +83,6 @@ export function MovieCard({ movie, onViewDetails }: { movie: Movie; onViewDetail
           </span>
         </div>
       </div>
-
-      {/* Inject custom spin translation fallback directly into style tree to protect platform compiling */}
-      <style jsx>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        .animate-spin-slow {
-          animation: spin 4s linear infinite;
-        }
-      `}</style>
     </motion.div>
   );
 }
