@@ -3,7 +3,6 @@
 import React from 'react';
 import Image from 'next/image';
 import { Star, Heart } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { Movie, useMovieStore } from '@/store/useMovieStore';
 
 interface MovieCardProps {
@@ -25,11 +24,9 @@ export function MovieCard({ movie, onViewDetails }: MovieCardProps) {
   };
 
   return (
-    <motion.div 
+    <div 
       onClick={() => onViewDetails(movie)}
-      whileHover={{ y: -6, scale: 1.02 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      className="bg-brand-surface rounded-xl overflow-hidden shadow-lg border border-gray-800/40 hover:border-brand-accent/30 cursor-pointer flex flex-col h-[430px] group transition-colors"
+      className="bg-brand-surface rounded-xl overflow-hidden shadow-lg border border-gray-800/40 hover:border-brand-accent/30 cursor-pointer flex flex-col h-[430px] group transition-all duration-200"
     >
       <div className="relative w-full h-[300px] bg-gray-900 overflow-hidden">
         {movie.poster_path ? (
@@ -48,16 +45,16 @@ export function MovieCard({ movie, onViewDetails }: MovieCardProps) {
           </div>
         )}
         <div className="absolute top-3 right-3 z-10">
-          <motion.button
-            whileTap={{ scale: 0.7 }}
+          <button
             onClick={handleFavoriteToggle}
             className="p-2.5 rounded-full backdrop-blur-md bg-brand-bg/60 border border-gray-700/50 text-white hover:bg-brand-surface transition-colors shadow-md"
           >
+            {/* When favorited, the icon now cleanly fills white and lines white */}
             <Heart 
               size={16} 
-              className={`transition-colors ${favorited ? 'fill-brand-secondary text-brand-secondary' : 'text-white hover:text-brand-secondary'}`} 
+              className={`transition-colors ${favorited ? 'fill-white text-white' : 'text-white hover:text-brand-secondary'}`} 
             />
-          </motion.button>
+          </button>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-brand-surface to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
@@ -82,6 +79,6 @@ export function MovieCard({ movie, onViewDetails }: MovieCardProps) {
           </span>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

@@ -8,9 +8,10 @@ export function SplashWrapper({ children }: { children: React.ReactNode }) {
   const [isLaunching, setIsLaunching] = useState(true);
 
   useEffect(() => {
+    // Increased duration to 3200ms to make the splash screen stay longer
     const timer = setTimeout(() => {
       setIsLaunching(false);
-    }, 1600);
+    }, 3200);
     return () => clearTimeout(timer);
   }, []);
 

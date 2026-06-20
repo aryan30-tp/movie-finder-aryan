@@ -29,7 +29,6 @@ export function MovieDetailModal({ movie, onClose }: MovieDetailModalProps) {
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        {/* Backdrop Fade */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -38,7 +37,6 @@ export function MovieDetailModal({ movie, onClose }: MovieDetailModalProps) {
           className="fixed inset-0 bg-black/80 backdrop-blur-sm"
         />
 
-        {/* Modal Window Slide up */}
         <motion.div 
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -46,7 +44,6 @@ export function MovieDetailModal({ movie, onClose }: MovieDetailModalProps) {
           transition={{ type: 'spring', duration: 0.5 }}
           className="bg-brand-surface w-full max-w-3xl rounded-2xl overflow-hidden shadow-2xl border border-gray-800 relative z-10 flex flex-col md:flex-row max-h-[90vh] md:max-h-none overflow-y-auto md:overflow-y-visible"
         >
-          {/* Close Trigger Button */}
           <button 
             onClick={onClose}
             className="absolute top-4 right-4 z-20 p-2 rounded-full bg-brand-bg/80 text-brand-textPrimary hover:bg-brand-accent hover:text-white transition-colors border border-gray-700/40"
@@ -54,7 +51,6 @@ export function MovieDetailModal({ movie, onClose }: MovieDetailModalProps) {
             <X size={18} />
           </button>
 
-          {/* Left Poster Pane */}
           <div className="relative w-full md:w-[320px] h-[340px] md:h-[480px] shrink-0 bg-gray-900">
             {movie.poster_path ? (
               <Image 
@@ -67,12 +63,11 @@ export function MovieDetailModal({ movie, onClose }: MovieDetailModalProps) {
             ) : (
               <div className="w-full h-full flex flex-col items-center justify-center p-4 text-brand-textMuted">
                 <span className="text-3xl mb-2">🎬</span>
-                <span>No Poster Avaialble</span>
+                <span>No Poster Available</span>
               </div>
             )}
           </div>
 
-          {/* Right Text Fields Pane */}
           <div className="p-6 md:p-8 flex flex-col justify-between flex-grow gap-6 bg-gradient-to-br from-brand-surface to-brand-bg">
             <div className="space-y-4">
               <h2 className="text-2xl md:text-3xl font-extrabold text-brand-textPrimary tracking-tight">
@@ -90,7 +85,7 @@ export function MovieDetailModal({ movie, onClose }: MovieDetailModalProps) {
                 </div>
               </div>
 
-              <div className="h-[px] w-full bg-gray-800/60" />
+              <div className="h-[1px] w-full bg-gray-800/60" />
 
               <div className="space-y-2">
                 <h4 className="text-xs uppercase font-bold tracking-widest text-brand-accent">Overview</h4>
@@ -104,11 +99,11 @@ export function MovieDetailModal({ movie, onClose }: MovieDetailModalProps) {
               onClick={() => favorited ? removeFavorite(movie.id) : addFavorite(movie)}
               className={`w-full py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 border shadow-lg transition-all active:scale-98 ${
                 favorited 
-                  ? 'bg-transparent border-brand-secondary text-brand-secondary hover:bg-brand-secondary/10' 
+                  ? 'bg-transparent border-white text-white hover:bg-white/10' 
                   : 'bg-brand-gradient border-transparent text-white hover:opacity-90 shadow-brand-accent/10'
               }`}
             >
-              <Heart size={16} className={favorited ? 'fill-brand-secondary' : ''} />
+              <Heart size={16} className={favorited ? 'fill-white text-white' : ''} />
               <span>{favorited ? 'Remove From Favorites' : 'Add to Favorites'}</span>
             </button>
           </div>
