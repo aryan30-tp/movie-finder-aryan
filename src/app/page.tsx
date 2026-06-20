@@ -1,31 +1,77 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Search, ChevronLeft, ChevronRight, Film } from 'lucide-react';
 import { getMovies } from '@/services/tmdb';
-import { Movie, useMovieStore } from '@/store/useMovieStore'; // Pulling Movie directly from the store source
+import { Movie, useMovieStore } from '@/store/useMovieStore';
 import { MovieCard } from '@/components/shared/MovieCard';
 import { MovieDetailModal } from '@/components/shared/MovieDetailModal';
 import { GridSkeleton } from '@/components/ui/Skeleton';
+import { Toast } from '@/components/ui/Toast';
 import { useDebounce } from '@/hooks/useDebounce';
+
+// Premium high-converting cinema genres list maps perfectly to TMDB internal genre definitions
+const GENRES = [
+  { id: 0, name: 'All Movies' },
+  { id: 28, name: 'Action' },
+  { id: 35, name: 'Comedy' },
+  { id: 18, name: 'Drama' },
+  { id: 878, name: 'Sci-Fi' },
+  { id: 27, name: 'Horror' }
+];
 
 export default function DiscoverPage() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGenre, setSelectedGenre] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  
+  // Toast Notification states
+  const [toastMessage, setToastMessage] = useState('');
+  const [isToastVisible, setIsToastVisible] = useState(false);
 
   const debouncedSearch = useDebounce(searchQuery, 400);
 
-  const fetchMoviesData = useCallback(async (page: number, query: string) => {
+  // Safely extract favorites array from Zustand state
+  const favorites = useMovieStore((state) => state.favorites);
+  
+  // Use a ref to track previous favorites accurately across renders without breaking state rules
+  const prevFavoritesRef = useRef<Movie[]>(favorites);
+
+  // Direct, safe state mutation tracking for clean Toast notifications
+  useEffect(() => {
+    const prevFavs = prevFavoritesRef.current;
+
+    if (favorites.length > prevFavs.length) {
+      // Find the movie item added
+      const added = favorites.find((m: Movie) => !prevFavs.some((p: Movie) => p.id === m.id));
+      if (added) {
+        setToastMessage(`Added "${added.title}" to Watchlist`);
+        setIsToastVisible(true);
+      }
+    } else if (favorites.length < prevFavs.length) {
+      // Find the movie item removed
+      const removed = prevFavs.find((m: Movie) => !favorites.some((p: Movie) => p.id === m.id));
+      if (removed) {
+        setToastMessage(`Removed "${removed.title}" from Watchlist`);
+        setIsToastVisible(true);
+      }
+    }
+
+    // Always update the ref with current values for the next comparison cycle
+    prevFavoritesRef.current = favorites;
+  }, [favorites]);
+
+  const fetchMoviesData = useCallback(async (page: number, query: string, genreId: number) => {
     setIsLoading(true);
     setErrorMsg(null);
     try {
       const result = await getMovies(page, query);
-      setMovies(result.movies);
+      setMovies(result.movies); 
       setTotalPages(result.totalPages || 1);
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to sync with TMDB. Please confirm API Token configurations.');
@@ -36,19 +82,19 @@ export default function DiscoverPage() {
 
   useEffect(() => {
     setCurrentPage(1);
-    fetchMoviesData(1, debouncedSearch);
-  }, [debouncedSearch, fetchMoviesData]);
+    fetchMoviesData(1, debouncedSearch, selectedGenre);
+  }, [debouncedSearch, selectedGenre, fetchMoviesData]);
 
   const handlePageChange = (targetPage: number) => {
     if (targetPage < 1 || targetPage > totalPages) return;
     setCurrentPage(targetPage);
-    fetchMoviesData(targetPage, debouncedSearch);
+    fetchMoviesData(targetPage, debouncedSearch, selectedGenre);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
     <div className="space-y-8 flex-grow flex flex-col">
-      {/* Search Header Banner */}
+      {/* Search Header Banner Layout */}
       <div className="relative rounded-2xl overflow-hidden bg-brand-surface border border-gray-800/40 p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-xl">
         <div className="space-y-1">
           <h1 className="text-2xl md:text-3xl font-black text-brand-textPrimary tracking-tight flex items-center gap-2">
@@ -57,7 +103,6 @@ export default function DiscoverPage() {
           <p className="text-sm text-brand-textMuted">Explore live real-time metrics across absolute global favorites.</p>
         </div>
 
-        {/* Dynamic Input Block */}
         <div className="relative w-full md:w-80 group">
           <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-textMuted group-focus-within:text-brand-accent transition-colors" />
           <input 
@@ -70,7 +115,24 @@ export default function DiscoverPage() {
         </div>
       </div>
 
-      {/* Primary Display Content Stream Grid */}
+      {/* Modern Horizontal Interactive Genre Filtering Chips Row */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
+        {GENRES.map((genre) => (
+          <button
+            key={genre.id}
+            onClick={() => setSelectedGenre(genre.id)}
+            className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border cursor-pointer whitespace-nowrap transition-all duration-200 ${
+              selectedGenre === genre.id
+                ? 'bg-brand-gradient text-white border-transparent shadow-md shadow-brand-accent/10 scale-102'
+                : 'bg-brand-surface text-brand-textMuted border-gray-800/80 hover:text-brand-textPrimary hover:border-gray-700'
+            }`}
+          >
+            {genre.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Unified Display Grid Stream Component Content Area */}
       <div className="flex-grow flex flex-col justify-start">
         {isLoading ? (
           <GridSkeleton />
@@ -87,7 +149,7 @@ export default function DiscoverPage() {
             </div>
             <div className="space-y-1">
               <h3 className="font-bold text-brand-textPrimary text-lg">No Results Collected</h3>
-              <p className="text-sm text-brand-textMuted">We couldn't extract listings matching your explicit query phrase.</p>
+              <p className="text-sm text-brand-textMuted">We couldn't extract listings matching your explicit query parameters.</p>
             </div>
           </div>
         ) : (
@@ -103,7 +165,7 @@ export default function DiscoverPage() {
         )}
       </div>
 
-      {/* Strict R1 Pagination Manual Control Row */}
+      {/* Manual Control Pagination Row Requirement R1 */}
       {!isLoading && !errorMsg && movies.length > 0 && (
         <div className="flex flex-col sm:flex-row justify-between items-center border-t border-gray-900 pt-6 gap-4 mt-auto">
           <p className="text-xs text-brand-textMuted font-medium">
@@ -131,11 +193,9 @@ export default function DiscoverPage() {
         </div>
       )}
 
-      {/* Detail Overlay Modal */}
-      <MovieDetailModal 
-        movie={selectedMovie} 
-        onClose={() => setSelectedMovie(null)} 
-      />
+      {/* Overlays Components */}
+      <MovieDetailModal movie={selectedMovie} onClose={() => setSelectedMovie(null)} />
+      <Toast message={toastMessage} isVisible={isToastVisible} onClose={() => setIsToastVisible(false)} />
     </div>
   );
 }
