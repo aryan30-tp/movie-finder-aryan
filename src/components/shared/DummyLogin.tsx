@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Film, Lock, Mail, ArrowRight, Shield } from 'lucide-react';
 
@@ -8,16 +9,16 @@ interface DummyLoginProps {
   onLoginSuccess: () => void;
 }
 
-// A rock-solid array of top global blockbuster poster paths from TMDB that will always resolve perfectly
+// Trusted TMDB production asset URLs that will render flawlessly via standard image tags
 const POSTERS = [
   'https://image.tmdb.org/t/p/w300/or0661b6uXvHQ0dgC6v7wI0ZZw6.jpg', // Inception
   'https://image.tmdb.org/t/p/w300/qJ2tWGBbeuevC6vBMYwTw8gGZ6M.jpg', // True Detective
   'https://image.tmdb.org/t/p/w300/u6FsY0Z9g9vgsU7g6wU297b97b1.jpg', // Interstellar
   'https://image.tmdb.org/t/p/w300/OwS966Aisv6w66fc6ndkpBt0vC.jpg',  // Dune
   'https://image.tmdb.org/t/p/w300/nnE76L69YgZfB96FvHGg0l4vS6X.jpg', // The Dark Knight
-  'https://image.tmdb.org/t/p/w300/8G6mYFm6YgZfB96FvHGg0l4vS6Y.jpg', // Gladiator
-  'https://image.tmdb.org/t/p/w300/fZ76L69YgZfB96FvHGg0l4vS6Z.jpg', // Avatar
-  'https://image.tmdb.org/t/p/w300/v6FsY0Z9g9vgsU7g6wU297b97b2.jpg'  // Pulp Fiction
+  'https://image.tmdb.org/t/p/w300/7W7jUv46YgZfB96FvHGg0l4vS6Y.jpg', // Gladiator
+  'https://image.tmdb.org/t/p/w300/6FsY0Z9g9vgsU7g6wU297b97b2.jpg',  // Pulp Fiction
+  'https://image.tmdb.org/t/p/w300/or0661b6uXvHQ0dgC6v7wI0ZZw6.jpg'  // Fallback Mirror
 ];
 
 export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
@@ -38,7 +39,7 @@ export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
   return (
     <div className="fixed inset-0 z-[999] bg-[#070913] w-screen h-screen flex overflow-hidden select-none font-sans">
       
-      {/* 🔐 LEFT SIDE: ULTRA-PREMIUM SLEEK AUTH CONTAINER (45% VIEWPORT) */}
+      {/* 🔐 LEFT SIDE: AUTH CONTAINER PANEL (45% VIEWPORT) */}
       <div className="w-full md:w-[45%] h-full bg-[#090d1a] border-r border-gray-900 flex flex-col justify-between p-8 sm:p-12 md:p-16 relative z-20 shrink-0">
         
         {/* Top Identity Tag */}
@@ -111,14 +112,13 @@ export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
         </div>
       </div>
 
-      {/* 🎬 RIGHT SIDE: MASSIVE LIVE CINEMA COVER MARQUEE WALL (55% VIEWPORT) */}
+      {/* 🎬 RIGHT SIDE: IMMERSIVE CINEMA MARQUEE WALL (55% VIEWPORT) */}
       <div className="hidden md:block w-[55%] h-full relative bg-[#060810] overflow-hidden">
         
-        {/* Moving Dynamic Poster Wall Grid Backdrop */}
-        <div className="absolute inset-0 grid grid-cols-3 gap-4 p-4 transform scale-110 -rotate-12 opacity-25 pointer-events-none">
+        {/* Dynamic Multi-Column Moving Poster Wall Matrix Grid Backdrop */}
+        <div className="absolute inset-0 grid grid-cols-3 gap-4 p-4 transform scale-110 -rotate-12 opacity-35 pointer-events-none">
           {Array.from({ length: 3 }).map((_, colIndex) => {
             const isUp = colIndex % 2 === 0;
-            // Distribute different posters across the vertical columns seamlessly
             const columnPosters = isUp ? POSTERS.slice(0, 4) : POSTERS.slice(4, 8);
             
             return (
@@ -126,17 +126,25 @@ export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
                 key={colIndex} 
                 className={`flex flex-col gap-4 ${isUp ? 'animate-marquee-up' : 'animate-marquee-down'}`}
                 style={{
-                  animation: `marquee-${isUp ? 'up' : 'down'} 35s linear infinite`
+                  animation: `marquee-${isUp ? 'up' : 'down'} 45s linear infinite`
                 }}
               >
-                {/* Double the array elements to create a perfectly seamless looping sequence */}
+                {/* Seamless looping array duplication */}
                 {[...columnPosters, ...columnPosters].map((posterUrl, imgIndex) => (
                   <div 
                     key={imgIndex} 
-                    className="w-full h-64 bg-brand-surface rounded-2xl border border-gray-800/40 relative overflow-hidden bg-cover bg-center shadow-inner"
-                    style={{ backgroundImage: `url(${posterUrl})` }}
+                    className="w-full h-64 bg-brand-surface rounded-2xl border border-gray-800/40 relative overflow-hidden shadow-inner shrink-0"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
+                    {/* Native Next.js Image component handles hotlinking sandboxes seamlessly */}
+                    <Image 
+                      src={posterUrl}
+                      alt="Marquee Artwork"
+                      fill
+                      sizes="20vw"
+                      className="object-cover opacity-90"
+                      unoptimized
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10" />
                   </div>
                 ))}
               </div>
@@ -144,18 +152,18 @@ export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
           })}
         </div>
 
-        {/* Screen Vignette Gradients for Immersive Theater Depth */}
+        {/* Cinematic Vignette Overlays */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#090d1a] via-transparent to-transparent z-10 w-48" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#070913] via-transparent to-[#070913]/90 z-10" />
-        <div className="absolute inset-0 bg-radial-vignette mix-blend-multiply opacity-90 pointer-events-none" />
+        <div className="absolute inset-0 bg-radial-vignette mix-blend-multiply opacity-95 pointer-events-none" />
 
-        {/* Floating Content Descriptor Overlay Card */}
+        {/* Floating Content Card Descriptor Box Overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center relative z-20 space-y-6">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="space-y-3 bg-brand-bg/60 backdrop-blur-md p-8 rounded-3xl border border-gray-800/40 max-w-sm shadow-2xl"
+            className="space-y-3 bg-brand-bg/70 backdrop-blur-md p-8 rounded-3xl border border-gray-800/50 max-w-sm shadow-2xl"
           >
             <div className="mx-auto w-12 h-12 rounded-full border border-brand-secondary/30 flex items-center justify-center bg-brand-secondary/5 text-brand-secondary shadow-lg shadow-brand-secondary/15">
               <Film size={20} className="animate-pulse" />
@@ -173,7 +181,7 @@ export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
 
       </div>
 
-      {/* Global Embedded CSS Animations */}
+      {/* Stylesheet Keyframes injection */}
       <style jsx global>{`
         @keyframes marquee-up {
           0% { transform: translateY(0); }
@@ -184,10 +192,10 @@ export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
           100% { transform: translateY(0); }
         }
         .animate-marquee-up {
-          animation: marquee-up 35s linear infinite;
+          animation: marquee-up 45s linear infinite;
         }
         .animate-marquee-down {
-          animation: marquee-down 35s linear infinite;
+          animation: marquee-down 45s linear infinite;
         }
         .bg-radial-vignette {
           background: radial-gradient(circle at center, transparent 10%, #070913 90%);
