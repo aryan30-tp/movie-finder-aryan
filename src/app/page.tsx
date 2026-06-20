@@ -31,6 +31,7 @@ export default function DiscoverPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+  const [hoveredGenre, setHoveredGenre] = useState<number | null>(null);
   
   const [toastMessage, setToastMessage] = useState('');
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -40,7 +41,6 @@ export default function DiscoverPage() {
   const { addFavorite, removeFavorite, isFavorite } = useMovieStore();
   const prevFavoritesRef = useRef<Movie[]>(favorites);
 
-  // Synchronize watchlist alerts
   useEffect(() => {
     const prevFavs = prevFavoritesRef.current;
     if (favorites.length > prevFavs.length) {
@@ -53,7 +53,6 @@ export default function DiscoverPage() {
     prevFavoritesRef.current = favorites;
   }, [favorites]);
 
-  // Handle Spotlight Carousel Auto-Rotation Interval
   useEffect(() => {
     if (carouselMovies.length === 0) return;
     const interval = setInterval(() => {
@@ -100,9 +99,14 @@ export default function DiscoverPage() {
   return (
     <div className="space-y-12 flex-grow flex flex-col relative z-10 w-full mb-6">
       
-      {/* 🎬 HIGH-PERFORMANCE ANCHORED SLIDE CAROUSEL SPOTLIGHT */}
+      {/* 🎬 SPOTLIGHT CAROUSEL BANNER */}
       {currentHero && !searchQuery && (
-        <div className="relative w-full h-[480px] md:h-[550px] rounded-3xl overflow-hidden shadow-2xl border border-gray-800/20 bg-[#070a10]">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          className="relative w-full h-[480px] md:h-[550px] rounded-3xl overflow-hidden shadow-2xl border border-gray-800/20 bg-[#070a10]"
+        >
           <AnimatePresence mode="popLayout">
             <motion.div
               key={currentHero.id}
@@ -115,11 +119,9 @@ export default function DiscoverPage() {
             />
           </AnimatePresence>
           
-          {/* Cinema Mask Plate Overlays */}
           <div className="absolute inset-0 bg-gradient-to-t from-brand-bg via-brand-bg/30 to-transparent z-10" />
           <div className="absolute inset-0 bg-gradient-to-r from-brand-bg via-transparent to-transparent z-10 w-full md:w-3/5" />
 
-          {/* Core Content Layout Layer */}
           <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 md:p-14 z-20 max-w-3xl space-y-4">
             <AnimatePresence mode="wait">
               <motion.div
@@ -161,7 +163,7 @@ export default function DiscoverPage() {
                       isHeroFavorited 
                         ? 'bg-transparent border-pink-300 text-pink-300 hover:bg-pink-300/10' 
                         : 'bg-brand-surface/70 backdrop-blur-sm border-gray-700/80 text-white hover:border-brand-secondary'
-                    }`}
+                }`}
                   >
                     <Heart size={14} className={isHeroFavorited ? 'fill-pink-300' : ''} />
                     <span>{isHeroFavorited ? 'In Watchlist' : 'Add Watchlist'}</span>
@@ -171,7 +173,6 @@ export default function DiscoverPage() {
             </AnimatePresence>
           </div>
 
-          {/* Carousel Dot Trackers */}
           <div className="absolute right-6 bottom-6 sm:right-10 sm:bottom-10 z-20 flex gap-2.5 bg-black/20 backdrop-blur-sm px-3 py-2 rounded-full border border-gray-800/40">
             {carouselMovies.map((_, index) => (
               <button
@@ -183,32 +184,61 @@ export default function DiscoverPage() {
               />
             ))}
           </div>
-        </div>
+        </motion.div>
       )}
 
-      {/* FILTER PLATFORM & MOVIE STREAM BOARD */}
-      <div className="space-y-6">
+      {/* SEARCH AND EXPLORATION PANEL WITH SCROLL REVEALS */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="space-y-6"
+      >
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-900 pb-3">
           
-          {/* Scrollbars hidden completely across all views natively */}
+          {/* Categories track with silver ray border tracer overlay attached dynamically */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 w-full md:w-auto overflow-y-hidden scrollbar-none [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             {GENRES.map((genre) => (
-              <button
-                key={genre.id}
-                onClick={() => setSelectedGenre(genre.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap cursor-pointer transition-all duration-300 border ${
-                  selectedGenre === genre.id
-                    ? 'bg-brand-surface text-brand-accent border-brand-accent/30 shadow-md'
-                    : 'bg-transparent text-brand-textMuted border-transparent hover:text-brand-textPrimary'
-                }`}
-                style={selectedGenre === genre.id ? { filter: 'drop-shadow(0px 0px 8px rgba(255, 90, 54, 0.12))' } : {}}
+              <div 
+                key={genre.id} 
+                className="relative rounded-xl"
+                onMouseEnter={() => setHoveredGenre(genre.id)}
+                onMouseLeave={() => setHoveredGenre(null)}
               >
-                {genre.name}
-              </button>
+                {/* Silver tracing track border wrapper inside categories */}
+                <AnimatePresence>
+                  {hoveredGenre === genre.id && (
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none z-30 rounded-xl" xmlns="http://www.w3.org/2000/svg">
+                      <rect rx="12" className="w-full h-full fill-transparent stroke-white/40 stroke-[1.5]" />
+                      <motion.rect
+                        rx="12"
+                        className="w-full h-full fill-transparent stroke-white stroke-[1.5]"
+                        initial={{ strokeDasharray: "400", strokeDashoffset: "400" }}
+                        animate={{ strokeDashoffset: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
+                      />
+                    </svg>
+                  )}
+                </AnimatePresence>
+                
+                <button
+                  onClick={() => setSelectedGenre(genre.id)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap cursor-pointer transition-all duration-300 border ${
+                    selectedGenre === genre.id
+                      ? 'bg-brand-surface text-brand-accent border-brand-accent/30 shadow-md'
+                      : 'bg-transparent text-brand-textMuted border-transparent hover:text-brand-textPrimary'
+                  }`}
+                  style={selectedGenre === genre.id ? { filter: 'drop-shadow(0px 0px 8px rgba(255, 90, 54, 0.12))' } : {}}
+                >
+                  {genre.name}
+                </button>
+              </div>
             ))}
           </div>
 
-          {/* Responsive Compact Search Bar */}
+          {/* Search Box input node layout */}
           <div className="relative w-full md:w-64 group shrink-0">
             <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-textMuted group-focus-within:text-brand-accent transition-colors" />
             <input 
@@ -221,14 +251,14 @@ export default function DiscoverPage() {
           </div>
         </div>
 
-        {/* DATA LOADING GRID VIEW */}
+        {/* DATA CONTAINER */}
         <div className="min-h-[400px] flex flex-col justify-start">
           {isLoading ? (
             <CustomActivityIndicator />
           ) : errorMsg ? (
             <div className="w-full py-20 text-center text-xs text-brand-textMuted">{errorMsg}</div>
           ) : movies.length === 0 ? (
-            <div className="w-full py-24 text-center text-xs text-brand-textMuted">No content matches specified indices.</div>
+            <div className="w-full py-24 text-center text-xs text-brand-textMuted">No movies matched selection parameters.</div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
               {movies.map((movie) => (
@@ -238,11 +268,11 @@ export default function DiscoverPage() {
           )}
         </div>
 
-        {/* STICKY PAGINATION CONTROL ROW */}
+        {/* PAGINATION PANEL */}
         {!isLoading && !errorMsg && movies.length > 0 && (
           <div className="flex justify-between items-center pt-4 border-t border-gray-900">
             <span className="text-[10px] tracking-widest font-mono text-brand-textMuted uppercase">
-              Segment {currentPage} of {totalPages}
+              Page {currentPage} of {totalPages}
             </span>
             <div className="flex items-center gap-1">
               <button
@@ -262,7 +292,7 @@ export default function DiscoverPage() {
             </div>
           </div>
         )}
-      </div>
+      </motion.div>
 
       <MovieDetailModal movie={selectedMovie} onClose={() => setSelectedMovie(null)} />
       <Toast message={toastMessage} isVisible={isToastVisible} onClose={() => setIsToastVisible(false)} />
