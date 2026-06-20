@@ -5,6 +5,8 @@ import "./globals.css";
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { SplashWrapper } from "@/components/shared/SplashWrapper";
+import { DummyLogin } from "@/components/shared/DummyLogin";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function RootLayout({
   children,
@@ -12,6 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -24,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-brand-bg text-brand-textPrimary antialiased selection:bg-brand-accent selection:text-white relative min-h-screen overflow-x-hidden">
-        {/* Ambient Mouse Tracker Glow */}
+        {/* Ambient Mouse Tracker Glow Mesh */}
         <div 
           className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-500 opacity-40 mix-blend-screen"
           style={{
@@ -34,12 +37,34 @@ export default function RootLayout({
         
         <div className="relative z-10 flex flex-col min-h-screen">
           <SplashWrapper>
-            <Navbar />
-            {/* Expanded to max-w-[1600px] with widened padding for a fluid cinema layout on all laptops */}
-            <main className="flex-grow flex flex-col px-4 sm:px-10 lg:px-16 max-w-[1600px] w-full mx-auto relative z-10">
-              {children}
-            </main>
-            <Footer />
+            <AnimatePresence mode="wait">
+              {!isLoggedIn ? (
+                <motion.div
+                  key="login-gate"
+                  initial={{ opacity: 1 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4 }}
+                  className="w-full"
+                >
+                  <DummyLogin onLoginSuccess={() => setIsLoggedIn(true)} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="main-app"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className="flex flex-col min-h-screen w-full"
+                >
+                  <Navbar />
+                  {/* Expanded cinema layout viewport dimensions matching high-end monitors perfectly */}
+                  <main className="flex-grow flex flex-col px-4 sm:px-10 lg:px-16 max-w-[1600px] w-full mx-auto relative z-10">
+                    {children}
+                  </main>
+                  <Footer />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </SplashWrapper>
         </div>
       </body>
