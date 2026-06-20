@@ -268,30 +268,30 @@ export default function DiscoverPage() {
           )}
         </div>
 
-        {/* PAGINATION PANEL */}
-        {!isLoading && !errorMsg && movies.length > 0 && (
-          <div className="flex justify-between items-center pt-4 border-t border-gray-900">
-            <span className="text-[10px] tracking-widest font-mono text-brand-textMuted uppercase">
-              Page {currentPage} of {totalPages}
-            </span>
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="p-2.5 rounded-xl bg-brand-surface/60 border border-gray-800/80 text-brand-textPrimary hover:border-brand-accent/40 disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronLeft size={12} />
-              </button>
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="p-2.5 rounded-xl bg-brand-surface/60 border border-gray-800/80 text-brand-textPrimary hover:border-brand-accent/40 disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronRight size={12} />
-              </button>
-            </div>
+       {/* PAGINATION PANEL */}
+      {!isLoading && !errorMsg && movies.length > 0 && (
+        <div className="flex justify-between items-center pt-6 border-t border-gray-900 mt-4">
+          <span className="text-[10px] tracking-widest font-mono text-brand-textMuted uppercase">
+            Page {currentPage} of {totalPages}
+          </span>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="p-4 rounded-xl bg-brand-surface/60 border border-gray-800/80 text-brand-textPrimary hover:border-brand-accent/50 hover:text-white hover:scale-105 disabled:opacity-10 disabled:hover:scale-100 disabled:hover:border-gray-800/80 cursor-pointer disabled:cursor-not-allowed transition-all shadow-md active:scale-95 flex items-center justify-center min-w-[52px] min-h-[52px]"
+            >
+              <ChevronLeft size={18} className="stroke-[2.5]" />
+            </button>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="p-4 rounded-xl bg-brand-surface/60 border border-gray-800/80 text-brand-textPrimary hover:border-brand-accent/50 hover:text-white hover:scale-105 disabled:opacity-10 disabled:hover:scale-100 disabled:hover:border-gray-800/80 cursor-pointer disabled:cursor-not-allowed transition-all shadow-md active:scale-95 flex items-center justify-center min-w-[52px] min-h-[52px]"
+            >
+              <ChevronRight size={18} className="stroke-[2.5]" />
+            </button>
           </div>
-        )}
+        </div>
+      )}
       </motion.div>
 
       <MovieDetailModal movie={selectedMovie} onClose={() => setSelectedMovie(null)} />
