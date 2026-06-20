@@ -9,16 +9,15 @@ interface DummyLoginProps {
   onLoginSuccess: () => void;
 }
 
-// Ultra-reliable movie banner graphics that pass cross-origin validations instantly
 const POSTERS = [
-  'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=300&auto=format&fit=crop', // Cinema Reels
-  'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=300&auto=format&fit=crop', // Theater Hall
-  'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=300&auto=format&fit=crop', // Movie Seats
-  'https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=300&auto=format&fit=crop', // Film Projector
-  'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=300&auto=format&fit=crop', // Glowing Abstract
-  'https://images.unsplash.com/photo-1574267432553-4b4628081c31?q=80&w=300&auto=format&fit=crop', // Neon Screen
-  'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=300&auto=format&fit=crop', // Stage Lights
-  'https://images.unsplash.com/photo-1535016120720-40c646be5580?q=80&w=300&auto=format&fit=crop'  // Classic Cinema
+  'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=300&auto=format&fit=crop', 
+  'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=300&auto=format&fit=crop', 
+  'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=300&auto=format&fit=crop', 
+  'https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=300&auto=format&fit=crop', 
+  'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=300&auto=format&fit=crop', 
+  'https://images.unsplash.com/photo-1574267432553-4b4628081c31?q=80&w=300&auto=format&fit=crop', 
+  'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=300&auto=format&fit=crop', 
+  'https://images.unsplash.com/photo-1535016120720-40c646be5580?q=80&w=300&auto=format&fit=crop'  
 ];
 
 export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
@@ -155,23 +154,25 @@ export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#070913] via-transparent to-[#070913]/90 z-10" />
         <div className="absolute inset-0 bg-radial-vignette mix-blend-multiply opacity-95 pointer-events-none" />
 
-        {/* Floating Content Card Descriptor Box Overlay */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center relative z-20 space-y-6">
+        {/* 🎯 ADJUSTED OVERLAY: DEAD-CENTERED, LARGE CINEMATIC INFOGRAPHIC TEXT */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-8 lg:p-16 text-center relative z-20">
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="space-y-3 bg-brand-bg/70 backdrop-blur-md p-8 rounded-3xl border border-gray-800/50 max-w-sm shadow-2xl"
+            className="space-y-4 max-w-lg"
           >
-            <div className="mx-auto w-12 h-12 rounded-full border border-brand-secondary/30 flex items-center justify-center bg-brand-secondary/5 text-brand-secondary shadow-lg shadow-brand-secondary/15">
-              <Film size={20} className="animate-pulse" />
+            <div className="mx-auto w-14 h-14 rounded-full border border-brand-accent/40 flex items-center justify-center bg-brand-accent/10 text-brand-accent shadow-xl shadow-brand-accent/20 mb-2">
+              <Film size={24} className="animate-pulse" />
             </div>
-            <div className="space-y-1.5">
-              <h2 className="text-sm font-black tracking-widest text-white uppercase">
+            
+            <div className="space-y-3">
+              <h2 className="text-xl md:text-3xl font-black tracking-widest text-white uppercase leading-tight drop-shadow-lg">
                 Explore Global Cinema
               </h2>
-              <p className="text-xs text-brand-textMuted leading-relaxed">
-                Sync with dynamic real-time catalog arrays, review comprehensive global metadata, and map customizable personal favorites indices instantly.
+              <div className="h-[2px] w-16 bg-brand-accent mx-auto rounded-full" />
+              <p className="text-xs md:text-sm text-brand-textMuted leading-relaxed font-medium px-4 drop-shadow">
+                Sync with dynamic real-time catalog arrays, review comprehensive global metadata, and map highly-customizable personal favorites indices instantly.
               </p>
             </div>
           </motion.div>
