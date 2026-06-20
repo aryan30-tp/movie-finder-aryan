@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Film, Lock, Mail, ArrowRight, Shield, Play } from 'lucide-react';
+import { Film, Lock, Mail, ArrowRight, Shield } from 'lucide-react';
 
 interface DummyLoginProps {
   onLoginSuccess: () => void;
@@ -24,144 +24,153 @@ export function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#070913] flex items-center justify-center min-h-screen w-full overflow-hidden select-none font-sans">
+    <div className="fixed inset-0 z-[999] bg-[#070913] w-screen h-screen flex overflow-hidden select-none font-sans">
       
-      {/* 🔮 CINEMATIC AMBIENT BACKGROUND GRADIENT MESH */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-brand-secondary/10 blur-[150px] pointer-events-none mix-blend-screen" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-brand-accent/5 blur-[130px] pointer-events-none mix-blend-screen" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#0b0f19_1px,transparent_1px),linear-gradient(to_bottom,#0b0f19_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-25" />
-
-      {/* 📦 SPLIT COLUMN WORKSPACE PLATFORM CARD */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.96, y: 15 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 18 }}
-        className="w-full max-w-4xl h-[560px] bg-[#0d1222]/50 border border-gray-800/60 rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2 relative z-10 mx-4"
-      >
+      {/* 🔐 LEFT SIDE: ULTRA-PREMIUM SLEEK AUTH CONTAINER (TAKES 45% OF VIEWPORT) */}
+      <div className="w-full md:w-[45%] h-full bg-[#090d1a] border-r border-gray-900 flex flex-col justify-between p-8 sm:p-12 md:p-16 relative z-20 shrink-0">
         
-        {/* 🔐 LEFT PANEL: THE AUTHENTICATION INTERFACE FORM */}
-        <div className="p-8 flex flex-col justify-between h-full bg-[#090d1a]/80 relative z-20">
-          {/* Top Brand Tagging */}
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-brand-gradient text-white shadow-md shadow-brand-accent/10">
-              <Film size={16} />
-            </div>
-            <span className="text-sm font-black tracking-widest text-white uppercase">
-              WATCH<span className="text-brand-accent">IT</span> MATRIX
-            </span>
+        {/* Top Identity Tag */}
+        <div className="flex items-center gap-2.5">
+          <div className="p-2 rounded-xl bg-brand-gradient text-white shadow-lg shadow-brand-accent/20">
+            <Film size={18} />
           </div>
-
-          {/* Core Input Stack Form */}
-          <div className="space-y-6 my-auto">
-            <div className="space-y-1">
-              <h1 className="text-xl md:text-2xl font-black text-white tracking-tight">
-                Sign In
-              </h1>
-              <p className="text-xs text-brand-textMuted font-medium">
-                Access your personalized cinema tracking metrics panel.
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4 pt-1">
-              <div className="space-y-1 relative">
-                <div className="relative group">
-                  <Mail size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-textMuted group-focus-within:text-brand-accent transition-colors" />
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email Address"
-                    className="w-full bg-[#070913]/90 text-brand-textPrimary text-xs border border-gray-800 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-brand-accent/40 transition-all placeholder:text-gray-600 font-medium"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1 relative">
-                <div className="relative group">
-                  <Lock size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-textMuted group-focus-within:text-brand-accent transition-colors" />
-                  <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    className="w-full bg-[#070913]/90 text-brand-textPrimary text-xs border border-gray-800 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-brand-accent/40 transition-all placeholder:text-gray-600 font-medium font-mono"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full py-3.5 px-4 rounded-xl font-bold text-xs tracking-wider uppercase bg-brand-gradient text-white hover:opacity-95 shadow-lg shadow-brand-accent/10 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed transform active:scale-98"
-              >
-                {isSubmitting ? (
-                  <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                ) : (
-                  <>
-                    <span>Continue</span>
-                    <ArrowRight size={13} />
-                  </>
-                )}
-              </button>
-            </form>
-          </div>
-
-          {/* Secure Client Identification Meta */}
-          <div className="flex items-center gap-1.5 text-[10px] font-mono text-gray-600 border-t border-gray-900/60 pt-4">
-            <Shield size={11} />
-            <span>Authenticated session channel handler // proxy active</span>
-          </div>
+          <span className="text-sm font-black tracking-widest text-white uppercase font-mono">
+            WATCH<span className="text-brand-accent">IT</span> STUDIO
+          </span>
         </div>
 
-        {/* 🎬 RIGHT PANEL: PREMIUM PREVIEW BRANDING CLUSTER DISPLAY */}
-        <div className="hidden md:flex relative h-full bg-[#0b0f19] items-center justify-center border-l border-gray-900 overflow-hidden px-6">
-          {/* Embedded Background Wallpaper Element */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-15 filter grayscale blur-[1px]"
-            style={{ backgroundImage: 'url(https://image.tmdb.org/t/p/w500/or0661b6uXvHQ0dgC6v7wI0ZZw6.jpg)' }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#090d1a] via-transparent to-transparent z-10" />
+        {/* Input Interactive Form Stack */}
+        <div className="space-y-8 my-auto max-w-sm w-full mx-auto">
+          <div className="space-y-2">
+            <h1 className="text-2xl md:text-3xl font-black text-white tracking-tight">
+              Sign In
+            </h1>
+            <p className="text-xs text-brand-textMuted font-medium leading-relaxed">
+              Enter your credential keys to access real-time metadata metrics and custom streaming watchlists.
+            </p>
+          </div>
 
-          {/* Overlapping Content Mock-up Stack Layers */}
-          <div className="relative z-20 w-full max-w-sm space-y-6 text-center flex flex-col items-center">
-            
-            {/* Interactive Visual Glass Plate Mockup */}
-            <motion.div 
-              animate={{ y: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="w-48 h-64 bg-brand-surface/30 backdrop-blur-md rounded-2xl border border-gray-800/60 shadow-2xl relative p-3 overflow-hidden flex flex-col justify-end group cursor-default"
-            >
-              <div 
-                className="absolute inset-0 bg-cover bg-center opacity-80"
-                style={{ backgroundImage: 'url(https://image.tmdb.org/t/p/w500/or0661b6uXvHQ0dgC6v7wI0ZZw6.jpg)' }}
+          <form onSubmit={handleSubmit} className="space-y-4 pt-1">
+            <div className="space-y-1 relative group">
+              <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-textMuted group-focus-within:text-brand-accent transition-colors" />
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email address"
+                className="w-full bg-[#070913] text-brand-textPrimary text-xs border border-gray-800/80 rounded-xl pl-10 pr-4 py-3.5 focus:outline-none focus:border-brand-accent/50 transition-all placeholder:text-gray-600 font-medium shadow-inner"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-              
-              <div className="relative z-10 flex items-center justify-between w-full">
-                <div className="space-y-0.5 text-left">
-                  <p className="text-[10px] font-black tracking-wide text-white uppercase truncate max-w-[100px]">Inception</p>
-                  <p className="text-[8px] font-bold text-brand-accent font-mono">Sci-Fi Masterpiece</p>
-                </div>
-                <div className="p-1.5 rounded-full bg-brand-accent text-white shadow shadow-brand-accent/30 scale-90">
-                  <Play size={10} className="fill-white pl-[1px]" />
-                </div>
-              </div>
-            </motion.div>
-
-            <div className="space-y-1.5">
-              <h3 className="text-sm font-black tracking-widest text-white uppercase">
-                Explore The Library
-              </h3>
-              <p className="text-[11px] text-brand-textMuted leading-relaxed max-w-xs mx-auto">
-                Sync with world-class catalogs, read accurate user review scoreboards, and build persistent personalized tracking list matrices.
-              </p>
             </div>
-          </div>
+
+            <div className="space-y-1 relative group">
+              <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-textMuted group-focus-within:text-brand-accent transition-colors" />
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password token"
+                className="w-full bg-[#070913] text-brand-textPrimary text-xs border border-gray-800/80 rounded-xl pl-10 pr-4 py-3.5 focus:outline-none focus:border-brand-accent/50 transition-all placeholder:text-gray-600 font-medium font-mono"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full mt-2 py-3.5 px-4 rounded-xl font-bold text-xs tracking-wider uppercase bg-brand-gradient text-white hover:opacity-95 shadow-xl shadow-brand-accent/15 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed transform active:scale-98"
+            >
+              {isSubmitting ? (
+                <div className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+              ) : (
+                <>
+                  <span>Sign In</span>
+                  <ArrowRight size={14} />
+                </>
+              )}
+            </button>
+          </form>
         </div>
 
-      </motion.div>
+        {/* Footprint Metadata Trace */}
+        <div className="flex items-center gap-2 text-[10px] font-mono text-gray-600 max-w-sm mx-auto w-full">
+          <Shield size={12} className="text-gray-700" />
+          <span>System security token layer: ACTIVE // node-09</span>
+        </div>
+      </div>
+
+      {/* 🎬 RIGHT SIDE: MASSIVE IMMERSIVE CINEMA COVER BANNER WALL (TAKES 55% OF VIEWPORT) */}
+      <div className="hidden md:block w-[55%] h-full relative bg-[#060810] overflow-hidden">
+        
+        {/* Infinite CSS Dynamic Motion Moving Poster Wall Matrix Grid Backdrop */}
+        <div className="absolute inset-0 grid grid-cols-3 gap-4 p-4 transform scale-110 -rotate-12 opacity-20 pointer-events-none">
+          {Array.from({ length: 3 }).map((_, colIndex) => (
+            <div 
+              key={colIndex} 
+              className={`flex flex-col gap-4 animate-marquee-${colIndex % 2 === 0 ? 'up' : 'down'}`}
+              style={{
+                animation: `marquee-${colIndex % 2 === 0 ? 'up' : 'down'} 30s linear infinite`
+              }}
+            >
+              {Array.from({ length: 4 }).map((_, imgIndex) => (
+                <div 
+                  key={imgIndex} 
+                  className="w-full h-56 bg-brand-surface rounded-2xl border border-gray-800/40 relative overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10" />
+                  <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded text-[9px] font-mono font-bold text-gray-500 uppercase tracking-widest">
+                    Cinema Item {(colIndex * 4) + imgIndex + 1}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Master Screen Vignette Gradients for Movie Theater Atmosphere */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#090d1a] via-transparent to-transparent z-10 w-48" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#070913] via-transparent to-[#070913]/80 z-10" />
+        <div className="absolute inset-0 bg-radial-vignette mix-blend-multiply opacity-80 pointer-events-none" />
+
+        {/* Center Floating Content Overlay Block */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-12 text-center relative z-20 space-y-6">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="space-y-3"
+          >
+            <div className="mx-auto w-12 h-12 rounded-full border border-brand-secondary/30 flex items-center justify-center bg-brand-secondary/5 text-brand-secondary shadow-lg shadow-brand-secondary/15">
+              <Film size={20} className="animate-pulse" />
+            </div>
+            <div className="space-y-1.5">
+              <h2 className="text-lg font-black tracking-widest text-white uppercase">
+                Explore Global Cinema
+              </h2>
+              <p className="text-xs text-brand-textMuted max-w-sm mx-auto leading-relaxed">
+                Sync with dynamic real-time catalog arrays, review comprehensive global metadata, and map highly-customizable personal favorites indices instantly.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+
+      </div>
+
+      {/* Injecting keyframe animations straight into a shadow stylesheet block to ensure 100% platform stability */}
+      <style jsx global>{`
+        @keyframes marquee-up {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(-50%); }
+        }
+        @keyframes marquee-down {
+          0% { transform: translateY(-50%); }
+          100% { transform: translateY(0); }
+        }
+        .bg-radial-vignette {
+          background: radial-gradient(circle at center, transparent 20%, #070913 95%);
+        }
+      `}</style>
+
     </div>
   );
 }
