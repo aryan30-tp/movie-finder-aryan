@@ -99,11 +99,11 @@ export function MovieDetailModal({ movie, onClose }: MovieDetailModalProps) {
               onClick={() => favorited ? removeFavorite(movie.id) : addFavorite(movie)}
               className={`w-full py-3 px-4 rounded-xl font-bold flex items-center justify-center gap-2 border shadow-lg transition-all active:scale-98 ${
                 favorited 
-                  ? 'bg-transparent border-white text-white hover:bg-white/10' 
+                  ? 'bg-transparent border-pink-300 text-pink-300 hover:bg-pink-300/10' 
                   : 'bg-brand-gradient border-transparent text-white hover:opacity-90 shadow-brand-accent/10'
               }`}
             >
-              <Heart size={16} className={favorited ? 'fill-white text-white' : ''} />
+              <Heart size={16} className={favorited ? 'fill-pink-300 text-pink-300' : ''} />
               <span>{favorited ? 'Remove From Favorites' : 'Add to Favorites'}</span>
             </button>
           </div>

@@ -49,10 +49,10 @@ export function MovieCard({ movie, onViewDetails }: MovieCardProps) {
             onClick={handleFavoriteToggle}
             className="p-2.5 rounded-full backdrop-blur-md bg-brand-bg/60 border border-gray-700/50 text-white hover:bg-brand-surface transition-colors shadow-md"
           >
-            {/* When favorited, the icon now cleanly fills white and lines white */}
+            {/* Toggled heart filled with a beautifully visible cinematic light pink */}
             <Heart 
               size={16} 
-              className={`transition-colors ${favorited ? 'fill-white text-white' : 'text-white hover:text-brand-secondary'}`} 
+              className={`transition-colors ${favorited ? 'fill-pink-300 text-pink-300' : 'text-white hover:text-brand-secondary'}`} 
             />
           </button>
         </div>
