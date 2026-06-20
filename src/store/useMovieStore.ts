@@ -5,6 +5,7 @@ export interface Movie {
   id: number;
   title: string;
   poster_path: string | null;
+  backdrop_path?: string | null; // Added support for widescreen background visuals
   release_date: string;
   vote_average: number;
   overview: string;
@@ -33,8 +34,6 @@ export const useMovieStore = create<MovieStore>()(
         })),
       isFavorite: (movieId) => get().favorites.some((m) => m.id === movieId),
     }),
-    {
-      name: 'watchit-favorites-storage',
-    }
+    { name: 'watchit-favorites-storage' }
   )
 );
