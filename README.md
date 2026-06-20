@@ -1,40 +1,76 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎬 Watchit - Premium Movie Discovery Engine
 
-## Getting Started
+A high-performance cinematic exploration platform built with Next.js, TypeScript, and Tailwind CSS. The engine bridges dynamic server-side TMDB API discovery streams with fluid client-side states, secure landing gates, and hardware-accelerated layouts.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠️ Complete Local Installation & Execution Guide
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Follow these exact steps to stand up and run the codebase cleanly on your local workstation:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Prerequisites
+Ensure you have the modern LTS version of Node.js installed (v18.x or higher recommended).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. Clone the Ecosystem Repository
+Clone the codebase down into your local directory tracks using your terminal:
 
-## Learn More
+    git clone https://github.com/aryan30-tp/movie-finder-aryan.git
+    cd movie-finder-aryan
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Install Core Dependency Packages
+Execute the package installer to restore all architectural dependencies completely:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    npm install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. Configure Your Project Environment
+Open your project's strongly-typed TypeScript configuration file `next.config.ts` and ensure it is configured to whitelist the TMDB content delivery network:
 
-## Deploy on Vercel
+    import type { NextConfig } from "next";
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    const nextConfig: NextConfig = {
+      images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'image.tmdb.org',
+            port: '',
+            pathname: '/t/p/**',
+          },
+        ],
+      },
+    };
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# movie-finder-aryan
->>>>>>> daae8ca87fe87315c2153837294ef06a5a2daca7
+    export default nextConfig;
+
+### 5. Inject Your Environment Credential Keys
+Create a local environment configuration file in the absolute root of the workspace directory:
+
+    touch .env.local
+
+Open `.env.local` and paste your TMDB API Read Access Token (v4) string under the public variable handle:
+
+    NEXT_PUBLIC_TMDB_API_KEY=eyJhbGciOiJIUzI1NiJ9...your_actual_very_long_v4_token_string_here...
+
+(Note: Do not use the short v3 API key string, as the modern authorization header engine requires the secure v4 token wrapper format to pass validation checkpoints).
+
+### 6. Launch the Localized Development Server
+Fire up the Next.js compiler engine:
+
+    npm run dev
+
+Open your web browser and navigate to the local environment host stream address:
+
+    http://localhost:3000
+
+Your premium landing portal experience will launch live with zero compile warnings!
+
+---
+
+## 🏗️ Production Compilation & Testing
+To evaluate how the application compiles optimized production asset chunk-trees, execute the build workflow commands sequentially:
+
+    # Compiles and checks strict TypeScript typings formatting constraints
+    npm run build
+
+    # Runs the compiled production build locally for verification testing
+    npm run start
