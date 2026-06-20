@@ -8,7 +8,6 @@ export function SplashWrapper({ children }: { children: React.ReactNode }) {
   const [isLaunching, setIsLaunching] = useState(true);
 
   useEffect(() => {
-    // Increased duration to 3200ms to make the splash screen stay longer
     const timer = setTimeout(() => {
       setIsLaunching(false);
     }, 3200);
@@ -22,35 +21,50 @@ export function SplashWrapper({ children }: { children: React.ReactNode }) {
           key="splash"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-[#0B0F19] flex flex-col items-center justify-center gap-4"
+          className="fixed inset-0 z-50 bg-[#0B0F19] flex flex-col items-center justify-center gap-6"
         >
-          <motion.div
-            initial={{ scale: 0.8, rotate: -10, opacity: 0 }}
-            animate={{ scale: [1, 1.1, 1], rotate: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: 'easeInOut' }}
-            className="p-5 rounded-2xl bg-brand-gradient text-white shadow-2xl shadow-brand-accent/30 flex items-center justify-center"
-          >
-            <Film size={48} className="animate-spin-slow" />
-          </motion.div>
+          <div className="relative p-8 flex items-center justify-center">
+            {/* Elegant SVG Neon Circle Drawing Path */}
+            <svg className="absolute w-28 h-28 transform -rotate-90" viewBox="0 0 100 100">
+              <motion.circle
+                cx="50"
+                cy="50"
+                r="46"
+                stroke="#F6F8FA"
+                strokeWidth="2"
+                fill="transparent"
+                strokeLinecap="round"
+                initial={{ strokeDasharray: "289", strokeDashoffset: "289" }}
+                animate={{ strokeDashoffset: 0 }}
+                transition={{ duration: 1.8, ease: "easeInOut" }}
+                style={{ filter: 'drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.6))' }}
+              />
+            </svg>
+
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.3, type: 'spring', stiffness: 150 }}
+              className="p-4 rounded-xl bg-brand-gradient text-white shadow-xl shadow-brand-accent/20"
+            >
+              <Film size={36} />
+            </motion.div>
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.8 }}
             className="text-center"
           >
             <h1 className="text-2xl font-black tracking-widest text-white">
               WATCH<span className="text-brand-accent">IT</span>
             </h1>
-            <p className="text-xs text-brand-textMuted tracking-widest uppercase mt-1">Cinematic Exploration Engine</p>
+            <p className="text-[10px] text-brand-textMuted tracking-widest uppercase mt-1">Cinematic Exploration Engine</p>
           </motion.div>
         </motion.div>
       ) : (
-        <motion.div 
-          key="app" 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }}
-          className="flex flex-col min-h-screen"
-        >
+        <motion.div key="app" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col min-h-screen w-full">
           {children}
         </motion.div>
       )}
