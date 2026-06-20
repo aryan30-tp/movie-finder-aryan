@@ -9,16 +9,16 @@ interface DummyLoginProps {
   onLoginSuccess: () => void;
 }
 
-// Trusted TMDB production asset URLs that will render flawlessly via standard image tags
+// Ultra-reliable movie banner graphics that pass cross-origin validations instantly
 const POSTERS = [
-  'https://image.tmdb.org/t/p/w300/or0661b6uXvHQ0dgC6v7wI0ZZw6.jpg', // Inception
-  'https://image.tmdb.org/t/p/w300/qJ2tWGBbeuevC6vBMYwTw8gGZ6M.jpg', // True Detective
-  'https://image.tmdb.org/t/p/w300/u6FsY0Z9g9vgsU7g6wU297b97b1.jpg', // Interstellar
-  'https://image.tmdb.org/t/p/w300/OwS966Aisv6w66fc6ndkpBt0vC.jpg',  // Dune
-  'https://image.tmdb.org/t/p/w300/nnE76L69YgZfB96FvHGg0l4vS6X.jpg', // The Dark Knight
-  'https://image.tmdb.org/t/p/w300/7W7jUv46YgZfB96FvHGg0l4vS6Y.jpg', // Gladiator
-  'https://image.tmdb.org/t/p/w300/6FsY0Z9g9vgsU7g6wU297b97b2.jpg',  // Pulp Fiction
-  'https://image.tmdb.org/t/p/w300/or0661b6uXvHQ0dgC6v7wI0ZZw6.jpg'  // Fallback Mirror
+  'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=300&auto=format&fit=crop', // Cinema Reels
+  'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=300&auto=format&fit=crop', // Theater Hall
+  'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=300&auto=format&fit=crop', // Movie Seats
+  'https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=300&auto=format&fit=crop', // Film Projector
+  'https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=300&auto=format&fit=crop', // Glowing Abstract
+  'https://images.unsplash.com/photo-1574267432553-4b4628081c31?q=80&w=300&auto=format&fit=crop', // Neon Screen
+  'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=300&auto=format&fit=crop', // Stage Lights
+  'https://images.unsplash.com/photo-1535016120720-40c646be5580?q=80&w=300&auto=format&fit=crop'  // Classic Cinema
 ];
 
 export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
@@ -129,19 +129,17 @@ export default function DummyLogin({ onLoginSuccess }: DummyLoginProps) {
                   animation: `marquee-${isUp ? 'up' : 'down'} 45s linear infinite`
                 }}
               >
-                {/* Seamless looping array duplication */}
                 {[...columnPosters, ...columnPosters].map((posterUrl, imgIndex) => (
                   <div 
                     key={imgIndex} 
                     className="w-full h-64 bg-brand-surface rounded-2xl border border-gray-800/40 relative overflow-hidden shadow-inner shrink-0"
                   >
-                    {/* Native Next.js Image component handles hotlinking sandboxes seamlessly */}
                     <Image 
                       src={posterUrl}
-                      alt="Marquee Artwork"
+                      alt="Marquee Movie Graphic"
                       fill
                       sizes="20vw"
-                      className="object-cover opacity-90"
+                      className="object-cover opacity-80"
                       unoptimized
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent z-10" />
