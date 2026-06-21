@@ -2,6 +2,8 @@
 
 A high-performance cinematic exploration platform built with Next.js, TypeScript, and Tailwind CSS. The engine bridges dynamic server-side TMDB API discovery streams with fluid client-side states, secure landing gates, and hardware-accelerated layouts.
 
+Please note while testing the auth screen is just a dummy and anything will work on it.
+
 ---
 
 ## 🛠️ Complete Local Installation & Execution Guide
